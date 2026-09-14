@@ -1,0 +1,24 @@
+<%#
+  Hook 3 (render_plugin_partials / PluginHelper.relative_plugin_view_path):
+  the file name is what matters here -- ArchivesSpace looks for a partial
+  literally named `_top_of_basic_information_resource.html.erb` inside this
+  plugin's frontend/views directory. No registration in plugin_init.rb is
+  required; the name match is the whole contract.
+
+  Called from resources/_form_container.html.erb (edit) and
+  resources/_show_inline.html.erb (readonly), both times with
+  locals: :form, :record. `form` is a real ArchivesSpaceForm on the edit
+  form, and a readonly form-context wrapper on the show page -- both
+  support the same `form.*` helper methods, so plugin code rendered via
+  this hook typically doesn't need to branch on which one it got.
+
+  This partial is styled as a plain Bootstrap alert -- a simple informational
+  note, which is a realistic use of this hook on its own. See
+  _basic_information_resource.html.erb for a different use of this same
+  hook: mimicking the look of a real form field.
+%>
+<div class="alert alert-info">
+  <strong>plugin_hooks_example:</strong> this box is rendered by
+  <code>render_plugin_partials("top_of_basic_information_resource", ...)</code>,
+  right above the Title field on this resource's edit form and show page.
+</div>

@@ -1,0 +1,38 @@
+<%#
+  Hook 3 (render_plugin_partials): "date_fields_ext" is rendered at the end
+  of the shared date subrecord template (dates/_template.html.erb), after
+  the certainty/era/calendar fields -- so it appears inside every date
+  subrecord form, across every record type that has dates (resources,
+  accessions, archival objects, etc). Locals: :form (the date subrecord's
+  own form context, not the parent record's).
+
+  This renders a field row in the same markup shape as certainty/era/
+  calendar just above it (label_and_select, via label_with_field in
+  aspace_form_helper.rb -- see _basic_information_resource.html.erb for
+  more on that shared shape), so it's a genuine-looking new row on the
+  Dates form. The input is disabled and labeled as such, though: this hook
+  only controls where something is drawn on the page, so even an enabled
+  input here wouldn't go anywhere on submit -- ArchivesSpace has no
+  "source_note" field on a date subrecord to save it into. Making a field
+  like this actually save requires real plugin work beyond the frontend --
+  extending the schema, a migration, and usually an indexer change (see the
+  `hello_world` plugin for that full pattern).
+%>
+<div class="form-group w-100 row">
+  <label class="control-label text-right col-sm-2" for="plugin_hooks_example_date_source_note">
+    plugin_hooks_example: Source Note
+  </label>
+  <div class="col-sm-9">
+    <input
+      type="text"
+      id="plugin_hooks_example_date_source_note"
+      class="form-control"
+      disabled
+      placeholder="e.g. Date confirmed via donor correspondence, box 4"
+    />
+    <p class="text-muted small mb-0">
+      Disabled -- this field isn't real. Typing here wouldn't save
+      anything; that needs real backend plugin work.
+    </p>
+  </div>
+</div>

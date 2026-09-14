@@ -1,0 +1,14 @@
+<section id="<%= section_id %>" class="subrecord-form-dummy">
+  <h3 class="subrecord-form-heading"><%= I18n.t("plugins.plugin_hooks_example.abstract_section.section") %></h3>
+  <div class="subrecord-form-container">
+    <div class="subrecord-form-fields">
+      <p>
+        This read-only block is rendered by a custom
+        <code>Plugins::AbstractPluginSection</code> subclass, registered via
+        <code>Plugins.register_plugin_section</code> in this plugin's
+        <code>plugin_init.rb</code>.
+      </p>
+      <p>Title of this <%= record['jsonmodel_type'] %>: <strong><%= record['title'] %></strong></p>
+    </div>
+  </div>
+</section>

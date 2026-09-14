@@ -1,0 +1,13 @@
+<section id="<%= section_id %>" class="subrecord-form-dummy">
+  <h3 class="subrecord-form-heading"><%= I18n.t("plugins.plugin_hooks_example.abstract_section.section") %></h3>
+  <div class="subrecord-form-container">
+    <div class="subrecord-form-fields">
+      <p class="text-muted">
+        This block is rendered by a custom <code>Plugins::AbstractPluginSection</code>
+        subclass registered via <code>Plugins.register_plugin_section</code>. It appears
+        here in edit mode. Its sidebar link comes from the same class's default
+        <code>render_sidebar</code>.
+      </p>
+    </div>
+  </div>
+</section>

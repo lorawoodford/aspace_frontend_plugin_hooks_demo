@@ -1,0 +1,12 @@
+<%#
+  Hook 3 (render_plugin_partials): "sidebar_footer" is rendered once at the
+  bottom of shared/_sidebar.html.erb, outside the <ul> of sidebar links --
+  so it appears on every record type's edit/show page, not just resources.
+  Locals: :record, :record_type.
+
+  Keep this lightweight: it renders on every record's sidebar, including
+  record types this plugin doesn't otherwise know anything about.
+%>
+<div class="small p-2 border-top">
+  plugin_hooks_example: sidebar_footer hook (record_type=<%= record_type %>)
+</div>
