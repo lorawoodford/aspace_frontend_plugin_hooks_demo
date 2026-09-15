@@ -1,24 +1,3 @@
-<%#
-  Hook 3 (render_plugin_partials): "basic_information_resource" is rendered
-  just before the closing </fieldset> of the Basic Information section on
-  the resource edit form and show page, i.e. after the built-in fields.
-  Locals: :form, :record (see _top_of_basic_information_resource.html.erb
-  for notes on what `form` is in each case).
-
-  Unlike the alert box above, this partial is styled to match a real
-  ArchivesSpace form field exactly -- the same "form-group w-100 row" /
-  "control-label text-right col-sm-2" / "col-sm-9" markup ArchivesSpace's
-  own form helpers generate (see label_with_field in aspace_form_helper.rb,
-  which every label_and_* helper -- e.g. label_and_textfield -- calls under
-  the hood).
-
-  This is still just a display mockup, though: the input is disabled, and
-  even if it weren't, this hook has no way to make ArchivesSpace persist
-  whatever's typed into it -- it only controls where something gets drawn
-  on the page. Adding a genuinely new, saved field requires real plugin
-  work beyond the frontend: extending the schema, a migration, and usually
-  an indexer change (see the `hello_world` plugin for that full pattern).
-%>
 <div class="form-group w-100 row">
   <label class="control-label text-right col-sm-2" for="plugin_hooks_example_level_display">
     plugin_hooks_example: Level, spelled out

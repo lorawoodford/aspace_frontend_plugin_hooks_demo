@@ -1,34 +1,21 @@
 # plugin_hooks_example
 #
-# See frontend/views/_*.html.erb for the named-partial hooks
-# (render_plugin_partials) -- those don't require any registration here,
-# just a correctly-named file. See the README for the full list of hooks
-# demonstrated and where to find each one.
+# This file must live at frontend/plugin_init.rb. That's the specific
+# path ArchivesSpace looks for it to load it at boot.
 #
-# This file lives at frontend/plugin_init.rb (not the plugin root) because
-# that's the exact path frontend/config/application.rb looks for and
-# `load`s at boot, once per configured plugin (see its
-# "Load plugin init.rb files" block, which calls
-# ASUtils.find_local_directories('frontend') then looks for plugin_init.rb
-# directly inside each plugin's frontend/ directory). A plugin with a
-# backend component would similarly need backend/plugin_init.rb -- that's
-# loaded separately by backend/app/main.rb and runs in the backend process,
-# not this one. This plugin is frontend-only, so it has no
-# backend/plugin_init.rb.
+# Every configured plugin's frontend/plugin_init.rb gets loaded this way,
+# one after another. Multiple plugin's plugin_init's won't overwrite or
+# replace each other, each just adds their own registrations to a shared
+# pool. However, load order does matter and that is determined by the
+# order in which plugins are listed in AppConfig[:plugins]. This only
+# matters when two plugins register the exact same hook with the exact
+# same value (e.g. two plugins both customizing facet labels for
+# "created_by"). In those scenarions, which one "wins" depends on the
+# specific hook, so check that hook's own behavior rather than assuming.
 #
-# IMPORTANT: frontend/plugin_init.rb is `load`d as a direct side effect of
-# frontend/config/application.rb being required by config/environment.rb --
-# and that happens BEFORE ArchivesSpace::Application.initialize! runs, which
-# is what actually loads config/initializers/*.rb (including
-# config/initializers/plugin.rb, the file that defines the `Plugins`
-# module/constant). So at the point this file is loaded, `Plugins` does not
-# exist yet -- referencing it directly at the top level of this file raises
-# `NameError: uninitialized constant Plugins` and prevents the frontend from
-# booting at all. Everything below is therefore wrapped in a
-# Rails.application.config.after_initialize block, which defers it until
-# initializers (and so `Plugins`) are guaranteed to be ready. (application.rb
-# itself uses this same hook, just above its plugin-loading loop, to
-# force-load JSONModels -- for the same reason.)
+# Everything below is wrapped in Rails.application.config.after_initialize
+# because this file loads too early for ArchivesSpace's Plugins module to
+# exist yet. Be sure not to remove this wrapper.
 Rails.application.config.after_initialize do
 
   # --- Hook 1: search facets -------------------------------------------------
@@ -62,9 +49,9 @@ Rails.application.config.after_initialize do
   )
 
   # --- Hook 3: Named-partial insertion points (`render_plugin_partials`) -----
-  # No code here. See: `plugin_hooks_example/frontend/views/_*.html.erb`).
-  # Those partials are discovered and rendered by filename alone; nothing needs
-  # to be registered here to get them to work.
+  # See: `plugin_hooks_example/frontend/views/_*.html.erb`).
+  # Those partials are discovered and rendered by filename alone, so nothing
+  # needs to be registered here to get them to work.
 
   # --- Hook 4: Plugins::AbstractPluginSection --------------------------------
 

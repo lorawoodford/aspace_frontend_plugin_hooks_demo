@@ -97,7 +97,7 @@ A couple of things worth knowing about this hook:
   [`frontend/locales/en.yml`](frontend/locales/en.yml).
 - We can also control how individual facet *values* (not just the group
   heading) get displayed, with `Plugins.add_facet_group_i18n`. `created_by`
-  values are usernames, one of which we can assume with be `admin`. In this
+  values are usernames, one of which we can assume will be `admin`. In this
   example we give just that one value a friendlier label so it stands out from
   ordinary user-created records in the facet list, and leave every other
   username exactly as-is:
@@ -228,7 +228,7 @@ Note, Scope and Contents, etc.) needs a matching schema/enum-level change,
 which is outside what this frontend-only plugin does (see `hello_world` for
 that kind of change). So instead, this plugin's registration just reuses
 the stock "General Note" (`"odd"`) value under a different label. While not a
-realistic new not kind, this does demonstrate the registration mechanics.
+realistic new note kind, this does demonstrate the registration mechanics.
 
 ### 6. `Plugins.add_resolve_field`
 

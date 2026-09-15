@@ -5,15 +5,8 @@ en:
         section: Plugin Hooks Example
       related_by_subject:
         section: Related by First Subject (plugin_hooks_example demo)
-      # Facet *value* label for "admin" on the "created_by" facet, used by
-      # the Plugins.add_facet_group_i18n registration in
-      # frontend/plugin_init.rb.
       created_by_facet:
         admin: Administrative User
-  # Facet group heading for the "created_by" facet this plugin adds to
-  # agents via Plugins.add_search_facets (see frontend/plugin_init.rb).
-  # Looked up at search.<record_type>.created_by, falling back to
-  # search.multi.created_by -- see frontend/app/views/search/_filter.html.erb.
   search:
     multi:
       created_by: Created By (plugin_hooks_example demo)
