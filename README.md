@@ -15,7 +15,7 @@ related but separate mechanism not covered on that page: named-partial
 insertion points (`render_plugin_partials`), which core views call at fixed
 locations (e.g. the top of a record's Basic Information section, or the
 sidebar footer) for any plugin that supplies a matching partial file --
-see [Hook 3](#3-named-partial-insertion-points-render_plugin_partials) below
+see [Hook 4](#4-named-partial-insertion-points-render_plugin_partials) below
 for the mechanics.
 
 This plugin is additive to, not a replacement for, the
@@ -77,7 +77,23 @@ plugin is the right tool for every one of these changes. Some things worth weigh
 
 ## Hooks demonstrated, and where
 
-### 1. Search facets (`Plugins.add_search_facets` / `add_facet_group_i18n`)
+### 1. Base search facets (`Plugins.add_search_base_facets`)
+
+We can add a facet with a single line: `Plugins.add_search_base_facets("repository")`.
+
+This is the simplest of the facet hooks, but it's also the narrowest in
+reach: it only shows up on the general search / "Browse All" results page,
+the Advanced Search results page, and the popup search used when linking a
+component or accession to another record. Most other places in the staff
+interface (a resource's search results, an agent's, etc.) use their own
+dedicated facet list instead, so a base facet added here won't appear
+there.
+
+We picked `repository` here because it's indexed for every record type
+(so it's always populated) and isn't already part of any type's own
+default facet list.
+
+### 2. Search facets (`Plugins.add_search_facets` / `add_facet_group_i18n`)
 
 We can add a new facet to a record type's search-results sidebar with a
 single line: `Plugins.add_search_facets(:agent_person, "created_by")`. This
@@ -107,7 +123,7 @@ A couple of things worth knowing about this hook:
   })
   ```
 
-### 2. `Plugins::PluginReadonlySearch` (embedded "related records" search)
+### 3. `Plugins::PluginReadonlySearch` (embedded "related records" search)
 
 We can also add a new search results/related records search block into an
 existing record's read-only/show page without writing any custom search code
@@ -156,7 +172,7 @@ A couple of things worth knowing about this hook:
   results. Neither is a limitation of the hook itself; both choices were made
   to keep this particular example simple.
 
-### 3. Named-partial insertion points (`render_plugin_partials`)
+### 4. Named-partial insertion points (`render_plugin_partials`)
 
 Throughout the SUI, ArchivesSpace's own view code calls out to a
 helper, `render_plugin_partials("some_hook_name", ...)`, at specific,
@@ -190,7 +206,7 @@ one. This plugin demonstrates one of each kind:
 | [`frontend/views/_sidebar_footer.html.erb`](frontend/views/_sidebar_footer.html.erb) | `sidebar_footer` | Bottom of the sidebar on *every* record type's edit/show page |
 | [`frontend/views/_date_fields_ext.html.erb`](frontend/views/_date_fields_ext.html.erb) | `date_fields_ext` | Inside every date subrecord form, after certainty/era/calendar |
 
-### 4. `Plugins::AbstractPluginSection` (programmatic sidebar + show + edit section)
+### 5. `Plugins::AbstractPluginSection` (programmatic sidebar + show + edit section)
 
 When we want to add a whole new section to a record complete with its own
 sidebar link, a read-only view, and an editable form, we can subclass 
@@ -209,7 +225,7 @@ block. The two partials it renders are
 and
 [`frontend/views/plugin_hooks_widgets/_abstract_section_edit.html.erb`](frontend/views/plugin_hooks_widgets/_abstract_section_edit.html.erb).
 
-### 5. `Plugins.register_note_types_handler`
+### 6. `Plugins.register_note_types_handler`
 
 If we want to add a new option to the "Add Note" type dropdown shown on
 resource and archival object forms, we can register a small function (a
@@ -230,7 +246,7 @@ that kind of change). So instead, this plugin's registration just reuses
 the stock "General Note" (`"odd"`) value under a different label. While not a
 realistic new note kind, this does demonstrate the registration mechanics.
 
-### 6. `Plugins.add_resolve_field`
+### 7. `Plugins.add_resolve_field`
 
 When ArchivesSpace fetches a record, linked or nested fields normally come
 back as bare URI references (e.g. `"/agents/people/1"`) rather than the full
@@ -251,7 +267,7 @@ on every page load. Only resolve fields you actually need rendered.
 There's no visible UI change from this hook on its own. Rather, it's
 primarily useful when paired alongside other custom plugin development.
 
-### 7. `Plugins.register_edit_role_for_type`
+### 8. `Plugins.register_edit_role_for_type`
 
 Search-results listings in the staff interface show an "Edit" button next
 to each record (alongside "View"), but only for users who actually have

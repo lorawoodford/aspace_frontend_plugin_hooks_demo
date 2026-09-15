@@ -18,7 +18,11 @@
 # exist yet. Be sure not to remove this wrapper.
 Rails.application.config.after_initialize do
 
-  # --- Hook 1: search facets -------------------------------------------------
+  # --- Hook 1: Plugins.add_search_base_facets ---------------------------------
+
+  Plugins.add_search_base_facets("repository")
+
+  # --- Hook 2: search facets --------------------------------------------------
 
   Plugins.add_search_facets(:agent_person, "created_by")
   Plugins.add_search_facets(:agent_family, "created_by")
@@ -29,7 +33,7 @@ Rails.application.config.after_initialize do
     "plugins.plugin_hooks_example.created_by_facet.admin" if facet_value == "admin"
   })
 
-  # --- Hook 2: Plugins::PluginReadonlySearch ---------------------------------
+  # --- Hook 3: Plugins::PluginReadonlySearch ---------------------------------
 
   Plugins.register_plugin_section(
     Plugins::PluginReadonlySearch.new(
@@ -48,12 +52,12 @@ Rails.application.config.after_initialize do
     )
   )
 
-  # --- Hook 3: Named-partial insertion points (`render_plugin_partials`) -----
+  # --- Hook 4: Named-partial insertion points (`render_plugin_partials`) -----
   # See: `plugin_hooks_example/frontend/views/_*.html.erb`).
   # Those partials are discovered and rendered by filename alone, so nothing
   # needs to be registered here to get them to work.
 
-  # --- Hook 4: Plugins::AbstractPluginSection --------------------------------
+  # --- Hook 5: Plugins::AbstractPluginSection --------------------------------
 
   class PluginHooksExampleSection < Plugins::AbstractPluginSection
     def render_readonly(view_context, record, form_context)
@@ -86,7 +90,7 @@ Rails.application.config.after_initialize do
     )
   )
 
-  # --- Hook 5: Plugins.register_note_types_handler ---------------------------
+  # --- Hook 6: Plugins.register_note_types_handler ---------------------------
 
   Plugins.register_note_types_handler(lambda { |jsonmodel_type, note_types, view_context|
     if jsonmodel_type =~ /resource|archival_object/
@@ -101,11 +105,11 @@ Rails.application.config.after_initialize do
     note_types
   })
 
-  # --- Hook 6: Plugins.add_resolve_field -------------------------------------
+  # --- Hook 7: Plugins.add_resolve_field -------------------------------------
 
   Plugins.add_resolve_field("classification")
 
-  # --- Hook 7: Plugins.register_edit_role_for_type ---------------------------
+  # --- Hook 8: Plugins.register_edit_role_for_type ---------------------------
 
   Plugins.register_edit_role_for_type("plugin_hooks_example_widget", "plugin_hooks_example_manage_widgets")
 
