@@ -28,14 +28,22 @@ work against the existing schema and data.
 
 ## Enabling this plugin
 
-Add `plugin_hooks_example` to `AppConfig[:plugins]` in your `config/config.rb`,
+1. Create the `plugin_hooks_example/` directory for this demo in your plugins directory, e.g.:
+
+```sh
+mkdir plugins/plugin_hooks_example/
+```
+
+2. copy the contents of this repository into `plugin_hooks_example/`,
+
+3. add `plugin_hooks_example` to `AppConfig[:plugins]` in your `config/config.rb`,
 e.g.:
 
 ```ruby
 AppConfig[:plugins] = ['local', 'lcnaf', 'plugin_hooks_example']
 ```
 
-then restart ArchivesSpace.
+4. then restart ArchivesSpace.
 
 ## Before reaching for a plugin
 
