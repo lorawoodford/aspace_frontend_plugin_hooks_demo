@@ -40,11 +40,10 @@ Rails.application.config.after_initialize do
       "plugin_hooks_example",
       "related_by_subject",
       ["resource"],
-      :heading_text => "Other Resources Sharing This Resource's First Subject (plugin_hooks_example demo)",
+      :heading_text => "Other Records Sharing This Resource's First Subject (plugin_hooks_example demo)",
       :filter_term_proc => lambda { |record|
         first_subject_uri = record["subjects"].first && record["subjects"].first["ref"]
         {
-          "primary_type" => "resource",
           "subject_uris" => first_subject_uri || "plugin_hooks_example:no-subjects",
         }.to_json
       },
